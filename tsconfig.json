@@ -10,9 +10,15 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "~/*": ["./src/*", "./test/*"]
+    },
+    "strictPropertyInitialization": false,
     "incremental": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
+    "strict": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
