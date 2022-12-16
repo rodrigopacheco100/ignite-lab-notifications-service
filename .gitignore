@@ -5,6 +5,9 @@
 #Docs
 /documentation
 
+#Environment
+.env
+
 # Logs
 logs
 *.log
