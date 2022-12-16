@@ -1,8 +1,9 @@
+import { Config } from 'jest';
 import { resolve } from 'node:path';
 import { pathsToModuleNameMapper } from 'ts-jest';
 import { compilerOptions } from './tsconfig.json';
 
-export default {
+const config: Config = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: 'src',
   testRegex: '.*\\.spec\\.ts$',
@@ -16,3 +17,5 @@ export default {
     prefix: `${resolve(__dirname)}`,
   }),
 };
+
+export default config;

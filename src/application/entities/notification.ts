@@ -2,23 +2,34 @@ import { randomUUID } from 'node:crypto';
 import { Replace } from '~/helpers/Replace';
 import { Content } from './content';
 
-interface NotificationProps {
+export interface NotificationProps {
   recipientId: string;
   content: Content;
   category: string;
-  readAt?: Date | null;
+  readAt: Date | null;
+  canceledAt: Date | null;
   createdAt: Date;
 }
+
+type NotificationPropsConstructor = Replace<
+  NotificationProps,
+  {
+    readAt?: Date | null;
+    canceledAt?: Date | null;
+    createdAt?: Date;
+  }
+>;
 
 export class Notification {
   private _id: string;
   private props: NotificationProps;
 
-  constructor(props: Replace<NotificationProps, { createdAt?: Date }>) {
-    this._id = randomUUID();
+  constructor(props: NotificationPropsConstructor, id?: string) {
+    this._id = id ?? randomUUID();
     this.props = {
       ...props,
-      readAt: props.readAt !== undefined ? props.readAt : null,
+      readAt: props.readAt ?? null,
+      canceledAt: props.canceledAt ?? null,
       createdAt: props.createdAt ?? new Date(),
     };
   }
@@ -51,12 +62,24 @@ export class Notification {
     this.props.category = value;
   }
 
-  public get readAt(): Date | null | undefined {
+  public get readAt(): Date | null {
     return this.props.readAt;
   }
 
-  public set readAt(value: Date | null | undefined) {
-    this.props.readAt = value;
+  public read() {
+    this.props.readAt = new Date();
+  }
+
+  public unread() {
+    this.props.readAt = null;
+  }
+
+  public get canceledAt(): Date | null {
+    return this.props.canceledAt;
+  }
+
+  public cancel() {
+    this.props.canceledAt = new Date();
   }
 
   public get createdAt(): Date {
